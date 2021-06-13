@@ -1,0 +1,545 @@
+
+<style>
+  :host {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 14px;
+    color: #333;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 8px 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .toolbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+  }
+
+  .toolbar img {
+    margin: 0 16px;
+  }
+
+  .toolbar #twitter-logo {
+    height: 40px;
+    margin: 0 8px;
+  }
+
+  .toolbar #youtube-logo {
+    height: 40px;
+    margin: 0 16px;
+  }
+
+  .toolbar #twitter-logo:hover,
+  .toolbar #youtube-logo:hover {
+    opacity: 0.8;
+  }
+
+  .content {
+    display: flex;
+    margin: 82px auto 32px;
+    padding: 0 16px;
+    max-width: 960px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  svg.material-icons {
+    height: 24px;
+    width: auto;
+  }
+
+  svg.material-icons:not(:last-child) {
+    margin-right: 8px;
+  }
+
+  .card svg.material-icons path {
+    fill: #888;
+  }
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  .card {
+    border-radius: 4px;
+    border: 1px solid #eee;
+    background-color: #fafafa;
+    height: 40px;
+    width: 200px;
+    margin: 0 8px 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    line-height: 24px;
+  }
+
+  .card-container .card:not(:last-child) {
+    margin-right: 0;
+  }
+
+  .card.card-small {
+    height: 16px;
+    width: 168px;
+  }
+
+  .card-container .card:not(.highlight-card) {
+    cursor: pointer;
+  }
+
+  .card-container .card:not(.highlight-card):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+  }
+
+  .card-container .card:not(.highlight-card):hover .material-icons path {
+    fill: rgb(105, 103, 103);
+  }
+
+  .card.highlight-card {
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+    border: none;
+    width: auto;
+    min-width: 30%;
+    position: relative;
+  }
+
+  .card.card.highlight-card span {
+    margin-left: 60px;
+  }
+
+  svg#rocket {
+    width: 80px;
+    position: absolute;
+    left: -10px;
+    top: -24px;
+  }
+
+  svg#rocket-smoke {
+    height: calc(100vh - 95px);
+    position: absolute;
+    top: 10px;
+    right: 180px;
+    z-index: -10;
+  }
+
+  a,
+  a:visited,
+  a:hover {
+    color: #1976d2;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #125699;
+  }
+
+  .terminal {
+    position: relative;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 6px;
+    padding-top: 45px;
+    margin-top: 8px;
+    overflow: hidden;
+    background-color: rgb(15, 15, 16);
+  }
+
+  .terminal::before {
+    content: "\2022 \2022 \2022";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: rgb(58, 58, 58);
+    color: #c2c3c4;
+    width: 100%;
+    font-size: 2rem;
+    line-height: 0;
+    padding: 14px 0;
+    text-indent: 4px;
+  }
+
+  .terminal pre {
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+    color: white;
+    padding: 0 1rem 1rem;
+    margin: 0;
+  }
+
+  .circle-link {
+    height: 40px;
+    width: 40px;
+    border-radius: 40px;
+    margin: 8px;
+    background-color: white;
+    border: 1px solid #eeeeee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: 1s ease-out;
+  }
+
+  .circle-link:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  footer {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    line-height: 20px;
+  }
+
+  footer a {
+    display: flex;
+    align-items: center;
+  }
+
+  .github-star-badge {
+    color: #24292e;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    padding: 3px 10px;
+    border: 1px solid rgba(27,31,35,.2);
+    border-radius: 3px;
+    background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%);
+    margin-left: 4px;
+    font-weight: 600;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+  }
+
+  .github-star-badge:hover {
+    background-image: linear-gradient(-180deg,#f0f3f6,#e6ebf1 90%);
+    border-color: rgba(27,31,35,.35);
+    background-position: -.5em;
+  }
+
+  .github-star-badge .material-icons {
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+  }
+
+  svg#clouds {
+    position: fixed;
+    bottom: -160px;
+    left: -230px;
+    z-index: -10;
+    width: 1920px;
+  }
+
+
+  /* Responsive Styles */
+  @media screen and (max-width: 767px) {
+
+    .card-container > *:not(.circle-link) ,
+    .terminal {
+      width: 100%;
+    }
+
+    .card:not(.highlight-card) {
+      height: 16px;
+      margin: 8px 0;
+    }
+
+    .card.highlight-card span {
+      margin-left: 72px;
+    }
+
+    svg#rocket-smoke {
+      right: 120px;
+      transform: rotate(-5deg);
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    svg#rocket-smoke {
+      display: none;
+      visibility: hidden;
+    }
+  }
+</style>
+
+<!-- Toolbar -->
+    <!-- Start Header Top Area -->
+    <div class="header-top-area">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="
+              color: #FFF;
+              padding: 18px;
+              font-size: 19px;
+              text-transform: UPPERCASE;
+          ">
+                  TradingApp
+                  <!-- <div class="logo-area">
+                      <a href="#"><img src="img/logo/logo.png" alt="" /></a>
+                  </div> -->
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                  <div class="header-top-menu">
+                      <ul class="nav navbar-nav notika-top-nav">
+                          <li class="nav-item dropdown">
+                              <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><span><i class="notika-icon notika-search"></i></span></a>
+                              <div role="menu" class="dropdown-menu search-dd animated flipInX">
+                                  <div class="search-input">
+                                      <i class="notika-icon notika-left-arrow"></i>
+                                      <input type="text" />
+                                  </div>
+                              </div>
+                          </li>
+                        </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- End Header Top Area -->
+  <!-- Mobile Menu start -->
+  <div class="mobile-menu-area">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="mobile-menu">
+                      <nav id="dropdown">
+                          <ul class="mobile-menu-nav">
+                              <li><a data-toggle="collapse" data-target="#Charts" href="#">Home</a>
+                                  <ul class="collapse dropdown-header-top">
+                                      <li><a href="analytics.html">Dashboard One</a></li>
+                                      <li><a href="analytics.html">Analytics</a></li>
+                                  </ul>
+                              </li>
+                              <li><a data-toggle="collapse" data-target="#demolibra" href="#">Charts</a>
+                                  <ul id="demolibra" class="collapse dropdown-header-top">
+                                      <li><a href="analytics.html">Flot Charts</a></li>
+                                      <li><a href="analytics.html">Bar Charts</a></li>
+                                      <li><a href="analytics.html">Line Charts</a></li>
+                                      <li><a href="analytics.html">Area Charts</a></li>
+                                  </ul>
+                              </li>
+                              </ul>
+                      </nav>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Mobile Menu end -->
+  <!-- Main Menu area start-->
+  <div class="main-menu-area mg-tb-40">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
+                      <li class="active"><a data-toggle="tab" href="#Home"><i class="notika-icon notika-house"></i> Home</a>
+                      </li>
+                      <li><a data-toggle="tab" href="#Charts"><i class="notika-icon notika-bar-chart"></i> Charts</a>
+                      </li>
+                  </ul>
+                  <div class="tab-content custom-menu-content">
+                      <div id="Home" class="tab-pane in active notika-tab-menu-bg animated flipInX">
+                          <ul class="notika-main-menu-dropdown">
+                              <li><a href="analytics.html">Dashboard One</a>
+                              </li>
+                            
+                              <li><a href="analytics.html">Analytics</a>
+                              </li>
+                             
+                          </ul>
+                      </div>
+                      <div id="Charts" class="tab-pane notika-tab-menu-bg animated flipInX">
+                          <ul class="notika-main-menu-dropdown">
+                              <li><a href="analytics.html">Flot Charts</a>
+                              </li>
+                              <li><a href="analytics.html">Bar Charts</a>
+                              </li>
+                              <li><a href="analytics.html">Line Charts</a>
+                              </li>
+                              <li><a href="analytics.html">Area Charts</a>
+                              </li>
+                          </ul>
+                      </div>
+                    </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Main Menu area End-->
+<!-- Breadcomb area Start-->
+<div class="breadcomb-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="breadcomb-list">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="breadcomb-wp">
+                <div class="breadcomb-icon">
+                  <i class="notika-icon notika-house"></i>
+                </div>
+                <div class="breadcomb-ctn">
+                  <h2>Analytics</h2>
+                  <p>Welcome to TradingApp</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-3">
+              <div class="breadcomb-report">
+                <button data-toggle="tooltip" data-placement="left" title="Download Report" class="btn"><i class="notika-icon notika-sent"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Breadcomb area End-->
+  <!-- Server time start-->
+  <div class="visitor-sv-tm-area">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="visitor-sv-tm-int">
+                      <div class="contact-hd mg-bt-ant-inner">
+                          <h2>SPX</h2>
+                          <p>Fusce eget dolor id justo luctus commodo vel pharetra nisi. Donec velit libero</p>
+                      </div>
+                      <div class="visitor-sv-tm-ch">
+                          <!-- <div id="visit-server-time" class="flot-chart"></div> -->
+                          <app-tv [symbol]="'AAL'"></app-tv>
+                      </div>
+                  </div>
+              </div>
+              
+          </div>
+      </div>
+  </div>
+  <!-- Server time End-->
+  <!-- Search Engine Start-->
+  <div class="search-engine-area mg-t-30">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                  <div class="visitor-sv-tm-int sm-res-mg-t-30">
+                      <div class="contact-hd mg-bt-ant-inner server-sts-rgt">
+                          <h2>Server Status</h2>
+                          <p>Fusce eget dolor id justo luctus commodo vel pharetra nisi. Donec velit libero</p>
+                      </div>
+                      <div class="visitor-st-ch">
+                          <div id="dynamic-chart" class="flot-chart widget-dynamic-chart ant-ctn-dyn"></div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                  <div class="visitor-sv-tm-int sm-res-mg-t-30 tb-res-mg-t-30 tb-res-ds-n dk-res-ds">
+                      <div class="contact-hd mg-bt-ant-inner">
+                          <h2>Visits Over Time</h2>
+                          <p>Fusce eget dolor id justo luctus commodo vel pharetra nisi. Donec velit libero</p>
+                      </div>
+                      <div class="visitor-st-ch visitor-ov-ct">
+                          <div id="visit-over-time" class="flot-chart"></div>
+                          <div class="flc-visits"></div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="search-engine-int sm-res-mg-t-30 tb-res-mg-t-30 tb-res-ds-n dk-res-ds">
+                    <div class="contact-hd search-hd-eg">
+                        <h2>Watchlist</h2>
+                        <p>Fusce eget dolor id justo luctus commodo vel pharetra nisi. Donec velit libero</p>
+                    </div>
+                    <div class="search-eg-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>SPX</th>
+                                    <th class="text-right">4192.67</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>NDX</td>
+                                    <td class="text-right">
+                                        <h4>4199.89 </h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>DJI</td>
+                                    <td class="text-right">
+                                      <h4>4982.27</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>VIX</td>
+                                    <td class="text-right">
+                                      <h4>5489.50</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>DXY</td>
+                                    <td class="text-right">
+                                      <h4>6198.43</h4>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+              
+          </div>
+      </div>
+  </div>
+  <!-- Search Engine End-->
+  <!-- Start Footer area-->
+  <div class="footer-copyright-area">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="footer-copy-right">
+                      <p>Copyright © 2020
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
